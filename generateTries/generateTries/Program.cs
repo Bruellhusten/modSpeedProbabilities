@@ -9,7 +9,7 @@ namespace generateTries
 {
     class Program
     {
-        public static List<SpeedResults> ResultList { get; set; }
+        public static List<SpeedResult> ResultList { get; set; }
         private const int TOP_SPEED = 29;
         private static readonly List<int> initialSpeeds = new List<int> { 3, 4, 5, };
         private static readonly List<int> slicingSpeeds = new List<int> { 0, 3, 4, 5, 6, };
@@ -21,7 +21,7 @@ namespace generateTries
             Console.WriteLine("check");
         }
 
-        private static void ExportToExcel(List<SpeedResults> list)
+        private static void ExportToExcel(List<SpeedResult> list)
         {
             
             using (ExcelPackage excelPackage = new ExcelPackage())
@@ -36,10 +36,10 @@ namespace generateTries
             }
         }
 
-        private static void FillWorsheetRows(List<SpeedResults> list, ExcelWorksheet worksheet)
+        private static void FillWorsheetRows(List<SpeedResult> list, ExcelWorksheet worksheet)
         {
             int row = 2;
-            foreach (SpeedResults speedresult in list)
+            foreach (SpeedResult speedresult in list)
             {
                 worksheet.Cells[row, 1].Value = speedresult.Speed;
                 worksheet.Cells[row, 2].Value = speedresult.Probability;
@@ -63,16 +63,16 @@ namespace generateTries
             excelPackage.Workbook.Properties.Created = DateTime.Now;
         }
 
-        private static List<SpeedResults> PopulateSpeedResults(int lowerBorder)
+        private static List<SpeedResult> PopulateSpeedResults(int lowerBorder)
         {
-            List<SpeedResults> results = new List<SpeedResults>();
+            List<SpeedResult> results = new List<SpeedResult>();
 
             if (lowerBorder <= TOP_SPEED)
             {
                 for (int i = TOP_SPEED; i >= lowerBorder; i-- )
                 {
                     var possibleCombinations = GeneratePossibleCombinations(i);
-                    results.Add(new SpeedResults
+                    results.Add(new SpeedResult
                     {
                         Speed = i,
                         PossibleCombinations = possibleCombinations,

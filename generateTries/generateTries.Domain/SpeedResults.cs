@@ -4,12 +4,12 @@ using System.Text;
 
 namespace generateTries.Domain
 {
-    public class SpeedResults
+    public class SpeedResult
     {
         public int Speed { get; set; }
         public decimal Probability { get; set; }
         public List<Combination> PossibleCombinations { get; set; }
-        public SpeedResults()
+        public SpeedResult()
         {
             //PopulateSpeedResult();
         }
