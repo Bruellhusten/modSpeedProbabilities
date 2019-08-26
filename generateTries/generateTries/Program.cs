@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml;
+﻿using generateTries.Domain;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,65 +23,44 @@ namespace generateTries
 
         private static void ExportToExcel(List<SpeedResults> list)
         {
-            using(ExcelPackage excelPackage = new ExcelPackage())
+            
+            using (ExcelPackage excelPackage = new ExcelPackage())
             {
-                //Set some properties of the Excel document
-                excelPackage.Workbook.Properties.Author = "Bruellhusten";
-                excelPackage.Workbook.Properties.Title = "Mod Speed Chances";
-                excelPackage.Workbook.Properties.Subject = "Mod Speed Chances";
-                excelPackage.Workbook.Properties.Created = DateTime.Now;
-
-                //Create the WorkSheet
+                SetWorkbookProperties(excelPackage);
                 ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Chances Per Speed");
+                SetWorksheetHeaders(worksheet);
+                FillWorsheetRows(list, worksheet);
 
-                int row = 2;
-
-                worksheet.Cells[1, 1].Value = "Speed";
-                worksheet.Cells[1, 2].Value = "Chances";
-                worksheet.Cells[1, 3].Value = "PossibileCombinations";
-
-                foreach (SpeedResults speedresult in list)
-                {
-                    worksheet.Cells[row, 1].Value = speedresult.Speed;
-                    worksheet.Cells[row, 2].Value = speedresult.Probability;
-                    worksheet.Cells[row, 3].Value = speedresult.PossibleCombinations.Count;
-                    row++;
-                }
-
-                //Save your file
                 FileInfo fi = new FileInfo(@"C:\temp\modChances.xlsx");
                 excelPackage.SaveAs(fi);
             }
+        }
 
+        private static void FillWorsheetRows(List<SpeedResults> list, ExcelWorksheet worksheet)
+        {
+            int row = 2;
+            foreach (SpeedResults speedresult in list)
+            {
+                worksheet.Cells[row, 1].Value = speedresult.Speed;
+                worksheet.Cells[row, 2].Value = speedresult.Probability;
+                worksheet.Cells[row, 3].Value = speedresult.PossibleCombinations.Count;
+                row++;
+            }
+        }
 
+        private static void SetWorksheetHeaders(ExcelWorksheet worksheet)
+        {
+            worksheet.Cells[1, 1].Value = "Speed";
+            worksheet.Cells[1, 2].Value = "Chances";
+            worksheet.Cells[1, 3].Value = "PossibileCombinations";
+        }
 
-            //var table = new System.Data.DataTable();
-
-            //table.Columns.Add("Speed", typeof(int));
-            //table.Columns.Add("Chance", typeof(decimal));
-            //table.Columns.Add("Number of Combinations", typeof(int));
-
-            //var excel = new Microsoft.Office.Interop.Excel.Application();
-            //excel.Visible = false;
-            //excel.DisplayAlerts = false;
-            //var workbook = excel.Workbooks.Add(Type.Missing);
-            //var worksheet = (Microsoft.Office.Interop.Excel.Worksheet) workbook.ActiveSheet;
-            //worksheet.Name = "mod Chances";
-            //worksheet.Cells[1, 1] = "Mod Chances";
-            
-
-            ////foreach(SpeedResults speedresult in list)
-            ////{
-            ////    worksheet.Cells[row, 1] = speedresult.Speed;
-            ////    worksheet.Cells[row, 2] = speedresult.Probability;
-            ////    worksheet.Cells[row, 3] = speedresult.PossibleCombinations;
-            ////    row++;
-            ////}
-
-            //workbook.SaveAs("modChances.xls");
-            //workbook.Close();
-            //excel.Quit();
-
+        private static void SetWorkbookProperties(ExcelPackage excelPackage)
+        {
+            excelPackage.Workbook.Properties.Author = "Bruellhusten";
+            excelPackage.Workbook.Properties.Title = "Mod Speed Chances";
+            excelPackage.Workbook.Properties.Subject = "Mod Speed Chances";
+            excelPackage.Workbook.Properties.Created = DateTime.Now;
         }
 
         private static List<SpeedResults> PopulateSpeedResults(int lowerBorder)

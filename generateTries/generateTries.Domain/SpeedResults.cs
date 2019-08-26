@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace generateTries
+namespace generateTries.Domain
 {
     public class SpeedResults
     {
