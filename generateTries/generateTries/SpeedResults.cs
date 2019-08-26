@@ -6,7 +6,7 @@ namespace generateTries
 {
     public class SpeedResults
     {
-        public int Result { get; set; }
+        public int Speed { get; set; }
         public decimal Probability { get; set; }
         public List<Combination> PossibleCombinations { get; set; }
         public SpeedResults()
