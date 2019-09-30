@@ -51,6 +51,7 @@ namespace generateTries.WebApi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Values Api V1");
+                c.RoutePrefix = String.Empty;
             });
         }
     }

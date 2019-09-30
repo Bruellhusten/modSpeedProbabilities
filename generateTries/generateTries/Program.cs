@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace generateTries
+namespace generateTries.Application
 {
     class Program
     {
@@ -14,53 +14,25 @@ namespace generateTries
         private static readonly List<int> initialSpeeds = new List<int> { 3, 4, 5, };
         private static readonly List<int> slicingSpeeds = new List<int> { 0, 3, 4, 5, 6, };
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var list = PopulateSpeedResults(0);
-            ExportToExcel(list);
+            ExcelFileWriter.ExportToExcel(list);
             Console.WriteLine("check");
         }
 
-        private static void ExportToExcel(List<SpeedResult> list)
+        public static decimal CalculateChance(int speed)
         {
-            
-            using (ExcelPackage excelPackage = new ExcelPackage())
-            {
-                SetWorkbookProperties(excelPackage);
-                ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Chances Per Speed");
-                SetWorksheetHeaders(worksheet);
-                FillWorsheetRows(list, worksheet);
-
-                FileInfo fi = new FileInfo(@"C:\temp\modChances.xlsx");
-                excelPackage.SaveAs(fi);
-            }
+            var list = PopulateSpeedResults(speed);
+            return list.Where(e => e.Speed.Equals(speed))
+                           .FirstOrDefault()
+                           .Probability;
         }
 
-        private static void FillWorsheetRows(List<SpeedResult> list, ExcelWorksheet worksheet)
+        public static decimal CalculateChances(int lowerBorder)
         {
-            int row = 2;
-            foreach (SpeedResult speedresult in list)
-            {
-                worksheet.Cells[row, 1].Value = speedresult.Speed;
-                worksheet.Cells[row, 2].Value = speedresult.Probability;
-                worksheet.Cells[row, 3].Value = speedresult.PossibleCombinations.Count;
-                row++;
-            }
-        }
-
-        private static void SetWorksheetHeaders(ExcelWorksheet worksheet)
-        {
-            worksheet.Cells[1, 1].Value = "Speed";
-            worksheet.Cells[1, 2].Value = "Chances";
-            worksheet.Cells[1, 3].Value = "PossibileCombinations";
-        }
-
-        private static void SetWorkbookProperties(ExcelPackage excelPackage)
-        {
-            excelPackage.Workbook.Properties.Author = "Bruellhusten";
-            excelPackage.Workbook.Properties.Title = "Mod Speed Chances";
-            excelPackage.Workbook.Properties.Subject = "Mod Speed Chances";
-            excelPackage.Workbook.Properties.Created = DateTime.Now;
+            var list = PopulateSpeedResults(lowerBorder);
+            return list.Sum(e => e.Probability);
         }
 
         private static List<SpeedResult> PopulateSpeedResults(int lowerBorder)
@@ -69,7 +41,7 @@ namespace generateTries
 
             if (lowerBorder <= TOP_SPEED)
             {
-                for (int i = TOP_SPEED; i >= lowerBorder; i-- )
+                for (int i = TOP_SPEED; i >= lowerBorder; i--)
                 {
                     var possibleCombinations = GeneratePossibleCombinations(i);
                     results.Add(new SpeedResult
