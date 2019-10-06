@@ -28,13 +28,14 @@ namespace generateTries.WebApi.Controllers
         }
 
         [HttpPost("EvaluateStrategy")]
-        public string EvaluateStrategy(Strategy strategy, int days)         
+        public string EvaluateStrategy(StrategyDTO strategy, int days = 30)         
         {
             CheckStrategy(strategy);
+            var evaluation = Strategy.EvaluateStrategy(strategy, days);
             return StrategyOutput(strategy); //ToDo: Implement evaluation
         }
 
-        private string StrategyOutput(Strategy strategy)
+        private string StrategyOutput(StrategyDTO strategy)
         {
             return "===Your Strategy===" + Environment.NewLine +
                 "Grey: " + strategy.GreyThreshold.ToString() + Environment.NewLine + 
@@ -53,7 +54,7 @@ namespace generateTries.WebApi.Controllers
             }
         }
 
-        private void CheckStrategy(Strategy strategy)
+        private void CheckStrategy(StrategyDTO strategy)
         {
             if(!(IsSpeedValid(strategy.GreyThreshold)
                 && IsSpeedValid(strategy.GreenThreshold)

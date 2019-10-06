@@ -15,19 +15,13 @@ namespace generateTries.Application
 
         public static List<SpeedResult> PopulateSpeedResults(int lowerBorder)
         {
-            List<SpeedResult> results = new List<SpeedResult>();
+            var results = new List<SpeedResult>();
 
             if (lowerBorder <= TOP_SPEED)
             {
                 for (int i = TOP_SPEED; i >= lowerBorder; i--)
                 {
-                    var possibleCombinations = GeneratePossibleCombinations(i);
-                    results.Add(new SpeedResult
-                    {
-                        Speed = i,
-                        PossibleCombinations = possibleCombinations,
-                        Probability = possibleCombinations.Sum(x => x.Probability()),
-                    });
+                    GenerateResultLines(results, i);
                 }
             }
             return results;
@@ -49,8 +43,27 @@ namespace generateTries.Application
                                       ToBlue = new SlicingIncrease(blueIncrease),
                                       ToPurple = new SlicingIncrease(purpleIncrease),
                                       ToGold = new SlicingIncrease(goldIncreases),
+                                      Mod = new Mod
+                                      {
+                                          InitialSpeed = greySpeed,
+                                          GreenSpeed = greySpeed + greenIncrease,
+                                          BlueSpeed = greySpeed + greenIncrease + blueIncrease,
+                                          PurpleSpeed = greySpeed + greenIncrease + blueIncrease + purpleIncrease,
+                                          GoldSpeed = greySpeed + greenIncrease + blueIncrease + purpleIncrease + goldIncreases,
+                                      }
                                   });
             return combinations;
+        }
+
+        private static void GenerateResultLines(List<SpeedResult> results, int i)
+        {
+            var possibleCombinations = GeneratePossibleCombinations(i);
+            results.Add(new SpeedResult
+            {
+                Speed = i,
+                PossibleCombinations = possibleCombinations,
+                Probability = possibleCombinations.Sum(x => x.Probability()),
+            });
         }
     }
 }

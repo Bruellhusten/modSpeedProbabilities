@@ -5,7 +5,7 @@ using System.Text;
 
 namespace generateTries.Domain
 {
-    public class Strategy
+    public class StrategyDTO
     {
         [DefaultValue(4)]
         public int GreyThreshold { get; set; }

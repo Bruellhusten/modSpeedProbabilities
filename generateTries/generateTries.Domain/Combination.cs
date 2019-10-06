@@ -11,10 +11,11 @@ namespace generateTries.Domain
         public SlicingIncrease ToBlue { get; set; }
         public SlicingIncrease ToPurple { get; set; }
         public SlicingIncrease ToGold { get; set; }
+        public Mod Mod { get; set; }
 
         public int Speed()
         {
-            return Init.Speed + ToGreen.Increase + ToBlue.Increase + ToPurple.Increase + ToGold.Increase;
+            return Mod.GoldSpeed;
         }
 
         public decimal Probability()
