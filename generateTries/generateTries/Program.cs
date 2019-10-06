@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace generateTries.Application
 {
-    class Program
+    public class Program
     {
         public static List<SpeedResult> ResultList { get; set; }
         private const int TOP_SPEED = 29;

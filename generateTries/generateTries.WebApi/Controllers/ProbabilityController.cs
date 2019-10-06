@@ -4,93 +4,56 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using generateTries.Application;
+using generateTries.Domain;
 
 namespace generateTries.WebApi.Controllers
 {
-    [Route("api/probabilities/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class ProbabilityController : Controller
+    public class ProbabilityController : ControllerBase
     {
-        
-        // GET: Probability
-        public ActionResult Index()
+        // GET api/values/5
+        [HttpGet("GetProbabilityForSpeed")]
+        public decimal GetProbabilityForSpeed(int speed)
         {
-            return View();
-        }
-        [HttpGet("{speed}")]
-        public async Task<ActionResult> CalculateProbability(int speed)
-        {
-            var probability = await CalculateProbability(speed);
-            return probability;
+            CheckSpeedInput(speed);
+            return Application.Program.CalculateChance(speed);
         }
 
-        // GET: Probability/Create
-        public ActionResult Create()
+        //GET api/values/5
+        [HttpGet("GetCumulatedProbabilitiesForSpeed")]
+        public decimal GetCumulatedProbabilitiesForSpeed(int speed)
         {
-            return View();
+            CheckSpeedInput(speed);
+            return Application.Program.CalculateChances(speed);
         }
 
-        // POST: Probability/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [HttpPost("EvaluateStrategy")]
+        public string EvaluateStrategy(Strategy strategy)         
         {
-            try
+            return StrategyOutput(strategy);
+        }
+
+        private string StrategyOutput(Strategy strategy)
+        {
+            return "===Your Strategy===" + Environment.NewLine +
+                "Grey: " + strategy.GreyThreshold.ToString() + Environment.NewLine + 
+                "Green: " + strategy.GreenThreshold.ToString() + Environment.NewLine +
+                "Blue: " + strategy.BlueThreshold.ToString() + Environment.NewLine +
+                "Purple: " + strategy.PurpleThreshold.ToString() + Environment.NewLine +
+                "> Daily Ship Energy: " + strategy.DailyShipEnergy.ToString() + Environment.NewLine +
+                "> Daily Crystal for Slicing Mats: " + strategy.DailySlicingCrystal.ToString();
+        }
+
+        private void CheckSpeedInput(int speed)
+        {
+            if (!IsSpeedValid(speed))
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Probability/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Probability/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                throw new ArgumentException("Use speeds between 3 and 29");
             }
         }
 
-        // GET: Probability/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Probability/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        private bool IsSpeedValid(int speed) => speed >= 3 && speed <= 29;
     }
 }

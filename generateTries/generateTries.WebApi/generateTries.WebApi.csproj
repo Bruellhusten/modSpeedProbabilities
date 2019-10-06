@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\generateTries.Domain\generateTries.Domain.csproj" />
     <ProjectReference Include="..\generateTries\generateTries.Application.csproj" />
   </ItemGroup>
 

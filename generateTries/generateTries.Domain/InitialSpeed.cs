@@ -6,6 +6,10 @@ namespace generateTries.Domain
 {
     public class InitialSpeed
     {
+        private const decimal SPEED_3_CHANCE = 0.3268M;
+        private const decimal SPEED_4_CHANCE = 0.3487M;
+        private const decimal SPEED_5_CHANCE = 0.3245M;
+
         public int Speed { get; }
         public decimal Probability { get; }
         public InitialSpeed(int speed)
@@ -14,13 +18,13 @@ namespace generateTries.Domain
             switch (speed)
             {
                 case 3:
-                    Probability = 0.3268M;
+                    Probability = SPEED_3_CHANCE;
                     break;
                 case 4:
-                    Probability = 0.3487M;
+                    Probability = SPEED_4_CHANCE;
                     break;
                 case 5:
-                    Probability = 0.3245M;
+                    Probability = SPEED_5_CHANCE;
                     break;
                 case 6:
                     Probability = 0M;

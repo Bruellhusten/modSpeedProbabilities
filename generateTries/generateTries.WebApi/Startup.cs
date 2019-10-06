@@ -44,7 +44,7 @@ namespace generateTries.WebApi
             {
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger();
