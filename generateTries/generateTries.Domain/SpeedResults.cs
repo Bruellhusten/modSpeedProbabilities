@@ -9,10 +9,6 @@ namespace generateTries.Domain
         public int Speed { get; set; }
         public decimal Probability { get; set; }
         public List<Combination> PossibleCombinations { get; set; }
-        public SpeedResult()
-        {
-            //PopulateSpeedResult();
-        }
 
     }
 }

@@ -13,26 +13,25 @@ namespace generateTries.WebApi.Controllers
     [ApiController]
     public class ProbabilityController : ControllerBase
     {
-        // GET api/values/5
         [HttpGet("GetProbabilityForSpeed")]
         public decimal GetProbabilityForSpeed(int speed)
         {
             CheckSpeedInput(speed);
-            return Application.Program.CalculateChance(speed);
+            return Chances.CalculateSingle(speed);
         }
 
-        //GET api/values/5
         [HttpGet("GetCumulatedProbabilitiesForSpeed")]
         public decimal GetCumulatedProbabilitiesForSpeed(int speed)
         {
             CheckSpeedInput(speed);
-            return Application.Program.CalculateChances(speed);
+            return Chances.CalculateMany(speed);
         }
 
         [HttpPost("EvaluateStrategy")]
-        public string EvaluateStrategy(Strategy strategy)         
+        public string EvaluateStrategy(Strategy strategy, int days)         
         {
-            return StrategyOutput(strategy);
+            CheckStrategy(strategy);
+            return StrategyOutput(strategy); //ToDo: Implement evaluation
         }
 
         private string StrategyOutput(Strategy strategy)
@@ -49,6 +48,17 @@ namespace generateTries.WebApi.Controllers
         private void CheckSpeedInput(int speed)
         {
             if (!IsSpeedValid(speed))
+            {
+                throw new ArgumentException("Use speeds between 3 and 29");
+            }
+        }
+
+        private void CheckStrategy(Strategy strategy)
+        {
+            if(!(IsSpeedValid(strategy.GreyThreshold)
+                && IsSpeedValid(strategy.GreenThreshold)
+                && IsSpeedValid(strategy.BlueThreshold)
+                && IsSpeedValid(strategy.PurpleThreshold)))
             {
                 throw new ArgumentException("Use speeds between 3 and 29");
             }
