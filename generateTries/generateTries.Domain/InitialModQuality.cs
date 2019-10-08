@@ -12,6 +12,7 @@ namespace generateTries.Domain
         public decimal Blue { get; }
         public decimal Purple { get; }
         public decimal Gold { get; }
+        public decimal GradeFiveChance { get; set; }
 
         public InitialModQuality()
         {
@@ -21,6 +22,7 @@ namespace generateTries.Domain
             Blue = 0.0917M;
             Purple = 0.0271M;
             Gold = 0.0226M;
+            GradeFiveChance = 1 - Trash;
         }
     }
 }

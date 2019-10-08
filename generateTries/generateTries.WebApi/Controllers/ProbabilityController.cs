@@ -28,14 +28,15 @@ namespace generateTries.WebApi.Controllers
         }
 
         [HttpPost("EvaluateStrategy")]
-        public string EvaluateStrategy(StrategyDTO strategy, int days = 30)         
+        public string EvaluateStrategy(StrategyDTO strategyDTO, int days = 30)         
         {
-            CheckStrategy(strategy);
-            var evaluation = Strategy.EvaluateStrategy(strategy, days);
-            return StrategyOutput(strategy); //ToDo: Implement evaluation
+            CheckStrategy(strategyDTO);
+            var strategy = new Strategy(strategyDTO, days);
+            var evaluation = strategy.EvaluateStrategy();
+            return StrategyOutput(strategyDTO, evaluation); //ToDo: Implement evaluation
         }
 
-        private string StrategyOutput(StrategyDTO strategy)
+        private string StrategyOutput(StrategyDTO strategy, StrategyResult evaluation)
         {
             return "===Your Strategy===" + Environment.NewLine +
                 "Grey: " + strategy.GreyThreshold.ToString() + Environment.NewLine + 
@@ -43,7 +44,13 @@ namespace generateTries.WebApi.Controllers
                 "Blue: " + strategy.BlueThreshold.ToString() + Environment.NewLine +
                 "Purple: " + strategy.PurpleThreshold.ToString() + Environment.NewLine +
                 "> Daily Ship Energy: " + strategy.DailyShipEnergy.ToString() + Environment.NewLine +
-                "> Daily Crystal for Slicing Mats: " + strategy.DailySlicingCrystal.ToString();
+                "> Daily Crystal for Slicing Mats: " + strategy.DailySlicingCrystal.ToString() + Environment.NewLine +
+                "=========================================" + Environment.NewLine +
+                "Will yield after " + evaluation.PassedDays.ToString() + " these Speed Mods:" + Environment.NewLine +
+                "+10 Speed: " + evaluation.SumOfPlus10Mods.ToString() + Environment.NewLine +
+                "+15 Speed: " + evaluation.SumOfPlus15Mods.ToString() + Environment.NewLine +
+                "+20 Speed: " + evaluation.SumOfPlus20Mods.ToString() + Environment.NewLine +
+                "+25 Speed: " + evaluation.SumOfPlus25Mods.ToString();
         }
 
         private void CheckSpeedInput(int speed)

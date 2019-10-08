@@ -11,5 +11,10 @@ namespace generateTries.Domain
         public int BlueSpeed { get; set; }
         public int PurpleSpeed { get; set; }
         public int GoldSpeed { get; set; }
+        public int InitialEnergyCost { get; set; }
+        public Mod()
+        {
+            InitialEnergyCost = 16;
+        }
     }
 }

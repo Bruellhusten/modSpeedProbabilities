@@ -13,6 +13,7 @@ namespace generateTries.Domain
         public SlicingIncrease ToGold { get; set; }
         public Mod Mod { get; set; }
 
+        //Calculate fails
         public int Speed()
         {
             return Mod.GoldSpeed;
@@ -22,5 +23,29 @@ namespace generateTries.Domain
         {
             return Init.Probability * ToGreen.Probability * ToBlue.Probability * ToPurple.Probability * ToGold.Probability;
         }
+
+        public decimal EnergyCost(StrategyDTO strategy)
+        {
+            var slicingCosts = new SlicingCosts();
+            if (Init.Speed < strategy.GreyThreshold)
+            {
+                return Mod.InitialEnergyCost;
+            }
+            if (Mod.GreenSpeed < strategy.GreenThreshold)
+            {
+                return Mod.InitialEnergyCost + slicingCosts.ToGreen;
+            }
+            if (Mod.BlueSpeed < strategy.BlueThreshold)
+            {
+                return Mod.InitialEnergyCost + slicingCosts.ToGreen + slicingCosts.ToBlue;
+            }
+            if (Mod.PurpleSpeed < strategy.PurpleThreshold)
+            {
+                return Mod.InitialEnergyCost + slicingCosts.ToGreen + slicingCosts.ToBlue + slicingCosts.ToPurple;
+            }
+
+            return Mod.InitialEnergyCost + slicingCosts.ToGreen + slicingCosts.ToBlue + slicingCosts.ToPurple + slicingCosts.ToGold;
+        }
+
     }
 }

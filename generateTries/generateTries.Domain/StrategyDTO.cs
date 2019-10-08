@@ -19,6 +19,8 @@ namespace generateTries.Domain
         public int DailyShipEnergy { get; set; }
         [DefaultValue(100)]
         public int DailySlicingCrystal { get; set; }
+        [DefaultValue(3)]
+        public int ShipEnergyRefreshes { get; set; }
 
     }
 }
