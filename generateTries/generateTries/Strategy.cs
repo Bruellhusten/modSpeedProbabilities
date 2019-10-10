@@ -9,47 +9,32 @@ namespace generateTries.Application
     public class Strategy
     {
         public List<SpeedResult> SpeedResults { get; }
-        public int Days { get; set; }
         public StrategyDTO StrategyDTO { get; set; }
-        private const int REFRESH_ENERGY = 120;
-        public Strategy(StrategyDTO strategyDTO, int days)
+        public Strategy(StrategyDTO strategyDTO)
         {
-            SpeedResults = DataGenerator.PopulateSpeedResults(10);
-            Days = days;
+            var generator = new StrategyDataGenerator(strategyDTO);
+            SpeedResults = generator.PopulateSpeedResults(10);
             StrategyDTO = strategyDTO;
         }
         public StrategyResult EvaluateStrategy()
         {
             var filteredSpeedResults = GetFilteredSpeedResults(StrategyDTO);
-            var dailyEnergy = GetDailyEnergy();
             var plus10Mods = filteredSpeedResults.FindAll(f => f.Speed >= 10 && f.Speed < 15);
             var plus15Mods = filteredSpeedResults.FindAll(f => f.Speed >= 15 && f.Speed < 20);
             var plus20Mods = filteredSpeedResults.FindAll(f => f.Speed >= 20 && f.Speed < 25);
             var plus25Mods = filteredSpeedResults.FindAll(f => f.Speed >= 25 && f.Speed < 30);
             return new StrategyResult
             {
-                PassedDays = Days,
-                SumOfPlus10Mods = plus10Mods.Sum(m => m.Probability) * dailyEnergy * Days,
-                SumOfPlus15Mods = plus15Mods.Sum(m => m.Probability) * dailyEnergy * Days,
-                SumOfPlus20Mods = plus20Mods.Sum(m => m.Probability) * dailyEnergy * Days,
-                SumOfPlus25Mods = plus25Mods.Sum(m => m.Probability) * dailyEnergy * Days,
+                PassedDays = StrategyDTO.Days,
+                SumOfPlus10Mods = plus10Mods.Sum(m => m.ModCount),
+                SumOfPlus15Mods = plus15Mods.Sum(m => m.ModCount),
+                SumOfPlus20Mods = plus20Mods.Sum(m => m.ModCount),
+                SumOfPlus25Mods = plus25Mods.Sum(m => m.ModCount),
             };
-          
-        }
-
-   
-
-        private decimal GetDailyEnergy()
-        {
-            var slicingMaterial = new SlicingMaterial();
-            return StrategyDTO.DailyShipEnergy
-                                + slicingMaterial.CrystalToEnergyEquivalent * StrategyDTO.DailySlicingCrystal
-                                + StrategyDTO.ShipEnergyRefreshes * REFRESH_ENERGY;
         }
 
         private List<SpeedResult> GetFilteredSpeedResults(StrategyDTO strategy)
         {
-
             foreach (var speedResult in SpeedResults)
             {
                 var combinationsToRemove = new List<Combination>();

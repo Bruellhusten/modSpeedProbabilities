@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using generateTries.Application;
 using generateTries.Domain;
+using System.Globalization;
 
 namespace generateTries.WebApi.Controllers
 {
@@ -17,21 +18,21 @@ namespace generateTries.WebApi.Controllers
         public decimal GetProbabilityForSpeed(int speed)
         {
             CheckSpeedInput(speed);
-            return Chances.CalculateSingle(speed);
+            return new Chances().CalculateSingle(speed);
         }
 
         [HttpGet("GetCumulatedProbabilitiesForSpeed")]
         public decimal GetCumulatedProbabilitiesForSpeed(int speed)
         {
             CheckSpeedInput(speed);
-            return Chances.CalculateMany(speed);
+            return new Chances().CalculateMany(speed);
         }
 
         [HttpPost("EvaluateStrategy")]
-        public string EvaluateStrategy(StrategyDTO strategyDTO, int days = 30)         
+        public string EvaluateStrategy(StrategyDTO strategyDTO)         
         {
             CheckStrategy(strategyDTO);
-            var strategy = new Strategy(strategyDTO, days);
+            var strategy = new Strategy(strategyDTO);
             var evaluation = strategy.EvaluateStrategy();
             return StrategyOutput(strategyDTO, evaluation); //ToDo: Implement evaluation
         }
@@ -43,14 +44,14 @@ namespace generateTries.WebApi.Controllers
                 "Green: " + strategy.GreenThreshold.ToString() + Environment.NewLine +
                 "Blue: " + strategy.BlueThreshold.ToString() + Environment.NewLine +
                 "Purple: " + strategy.PurpleThreshold.ToString() + Environment.NewLine +
-                "> Daily Ship Energy: " + strategy.DailyShipEnergy.ToString() + Environment.NewLine +
+                "> Daily Mod Energy: " + strategy.DailyModEnergy.ToString() + Environment.NewLine +
                 "> Daily Crystal for Slicing Mats: " + strategy.DailySlicingCrystal.ToString() + Environment.NewLine +
                 "=========================================" + Environment.NewLine +
-                "Will yield after " + evaluation.PassedDays.ToString() + " these Speed Mods:" + Environment.NewLine +
-                "+10 Speed: " + evaluation.SumOfPlus10Mods.ToString() + Environment.NewLine +
-                "+15 Speed: " + evaluation.SumOfPlus15Mods.ToString() + Environment.NewLine +
-                "+20 Speed: " + evaluation.SumOfPlus20Mods.ToString() + Environment.NewLine +
-                "+25 Speed: " + evaluation.SumOfPlus25Mods.ToString();
+                "Will yield after " + evaluation.PassedDays.ToString() + " days these Speed Mods:" + Environment.NewLine +
+                "+10 Speed: " + Math.Round(evaluation.SumOfPlus10Mods, 4).ToString(CultureInfo.InvariantCulture) + Environment.NewLine +
+                "+15 Speed: " + Math.Round(evaluation.SumOfPlus15Mods, 4).ToString() + Environment.NewLine +
+                "+20 Speed: " + Math.Round(evaluation.SumOfPlus20Mods, 4).ToString() + Environment.NewLine +
+                "+25 Speed: " + Math.Round(evaluation.SumOfPlus25Mods, 4).ToString();
         }
 
         private void CheckSpeedInput(int speed)

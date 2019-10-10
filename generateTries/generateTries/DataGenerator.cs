@@ -8,26 +8,25 @@ namespace generateTries.Application
 {
     public class DataGenerator
     {
-        public static List<SpeedResult> ResultList { get; set; }
         private const int TOP_SPEED = 29;
         private static readonly List<int> initialSpeeds = new List<int> { 3, 4, 5, };
         private static readonly List<int> slicingSpeeds = new List<int> { 0, 3, 4, 5, 6, };
 
-        public static List<SpeedResult> PopulateSpeedResults(int lowerBorder)
+        public List<SpeedResult> PopulateSpeedResults(int lowerBorder)
         {
             var results = new List<SpeedResult>();
 
             if (lowerBorder <= TOP_SPEED)
             {
-                for (int i = TOP_SPEED; i >= lowerBorder; i--)
+                for (int speed = TOP_SPEED; speed >= lowerBorder; speed--)
                 {
-                    GenerateResultLines(results, i);
+                    GenerateResultLines(results, speed);
                 }
             }
             return results;
         }
 
-        public static List<Combination> GeneratePossibleCombinations(int targetSpeed)
+        public virtual List<Combination> GeneratePossibleCombinations(int targetSpeed)
         {
             var combinations = new List<Combination>();
             combinations.AddRange(from int greySpeed in initialSpeeds
@@ -55,12 +54,12 @@ namespace generateTries.Application
             return combinations;
         }
 
-        private static void GenerateResultLines(List<SpeedResult> results, int i)
+        public virtual void GenerateResultLines(List<SpeedResult> results, int speed)
         {
-            var possibleCombinations = GeneratePossibleCombinations(i);
+            var possibleCombinations = GeneratePossibleCombinations(speed);
             results.Add(new SpeedResult
             {
-                Speed = i,
+                Speed = speed,
                 PossibleCombinations = possibleCombinations,
                 Probability = possibleCombinations.Sum(x => x.Probability()),
             });

@@ -11,7 +11,8 @@ namespace generateTries.Application
     {
         public static void Main(string[] args)
         {
-            var list = DataGenerator.PopulateSpeedResults(0);
+            var generator = new DataGenerator();
+            var list = generator.PopulateSpeedResults(0);
             ExcelFileWriter.ExportToExcel(list);
             Console.WriteLine("check");
         }

@@ -8,16 +8,22 @@ namespace generateTries.Application
     //ToDo: DI class
     public class Chances
     {
-        public static decimal CalculateSingle(int speed)
+        public DataGenerator Generator { get; set; }
+        public Chances()
         {
-            var list = DataGenerator.PopulateSpeedResults(speed);
+            Generator = new DataGenerator();
+        }
+        public decimal CalculateSingle(int speed)
+        {
+            
+            var list = Generator.PopulateSpeedResults(speed);
             return list.FirstOrDefault(e => e.Speed.Equals(speed))                           
                         .Probability;
         }
 
-        public static decimal CalculateMany(int lowerBorder)
+        public decimal CalculateMany(int lowerBorder)
         {
-            var list = DataGenerator.PopulateSpeedResults(lowerBorder);
+            var list = Generator.PopulateSpeedResults(lowerBorder);
             return list.Sum(e => e.Probability);
         }
     }
