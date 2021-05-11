@@ -1,7 +1,7 @@
 # Mod Speed Probabilities
 
 This is a small webservice I created mostly for the purpose of evaluating probabilities for mod slicing in Star Wars Galaxy of Heroes. 
-To run it, you need at least a .net Core 2.2 runtime. It creates a website hosted on your machine that you can open with https://localhost:<Portnumber>/index.html
+To run it, you need at least a .net Core 2.2 runtime. It creates a website hosted on your machine that you can open with https://localhost:Portnumber/index.html
 The service is based on statistics taken from the Planet Coruscant Discord server. (chances for hitting certain speeds, chances for hitting 4 dot mods etc.)
 
 There are 3 endpoints in it currently: 
