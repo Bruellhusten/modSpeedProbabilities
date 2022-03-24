@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "generateTries", "generateTries\generateTries.csproj", "{AD9CFD86-444C-48D8-889E-813E650191FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "generateTries.Application", "generateTries\generateTries.Application.csproj", "{AD9CFD86-444C-48D8-889E-813E650191FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "generateTries.Domain", "generateTries.Domain\generateTries.Domain.csproj", "{87B13BC0-D3C1-4871-8335-FCE55E9584E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "generateTries.WebApi", "generateTries.WebApi\generateTries.WebApi.csproj", "{D80BA57A-F720-41BB-BF07-114F133D28A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{AD9CFD86-444C-48D8-889E-813E650191FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD9CFD86-444C-48D8-889E-813E650191FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD9CFD86-444C-48D8-889E-813E650191FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B13BC0-D3C1-4871-8335-FCE55E9584E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B13BC0-D3C1-4871-8335-FCE55E9584E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B13BC0-D3C1-4871-8335-FCE55E9584E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B13BC0-D3C1-4871-8335-FCE55E9584E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D80BA57A-F720-41BB-BF07-114F133D28A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D80BA57A-F720-41BB-BF07-114F133D28A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D80BA57A-F720-41BB-BF07-114F133D28A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D80BA57A-F720-41BB-BF07-114F133D28A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

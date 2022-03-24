@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace generateTries
+namespace generateTries.Domain
 {
-    public class SpeedResults
+    public class SpeedResult
     {
         public int Speed { get; set; }
         public decimal Probability { get; set; }
         public List<Combination> PossibleCombinations { get; set; }
-        public SpeedResults()
-        {
-            //PopulateSpeedResult();
-        }
+        public decimal ModCount { get; set; }
 
     }
 }
