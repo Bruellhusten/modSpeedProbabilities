@@ -33,7 +33,7 @@ namespace generateTries.Application
             var slicingMaterial = new SlicingMaterial();
             return (Strategy.DailyModEnergy
                         + slicingMaterial.CrystalToEnergyEquivalent * Strategy.DailySlicingCrystal
-                        + Strategy.ShipEnergyRefreshes * REFRESH_ENERGY)
+                        + Strategy.ModEnergyRefreshes * REFRESH_ENERGY)
                             * Strategy.Days;
         }
     }

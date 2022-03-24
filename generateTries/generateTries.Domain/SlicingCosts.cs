@@ -10,34 +10,44 @@ namespace generateTries.Domain
         public int ToBlue { get; }
         public int ToPurple { get; }
         public int ToGold { get; }
-        public decimal AverageSlicingCosts { get; set; }
+        public int AverageSlicingCosts { get; set; }
         public StrategyDTO Strategy { get; set; }
 
-        public SlicingCosts()
+        public SlicingCosts(ModGrade grade)
         {
-            ToGreen = 10;
-            ToBlue = 20;
-            ToPurple = 35;
-            ToGold = 50;
-            //AverageSlicingCosts = CalculateAverageSlicingCosts();
-        }
-
-        public SlicingCosts(Combination combination)
-        {
-
-        }
-
-        private decimal CalculateAverageSlicingCosts(StrategyDTO strategy)
-        {
-            Strategy = strategy;
-            var grey = CalculateFromGrey();
-            return 0M;
-        }
-
-        private decimal CalculateFromGrey()
-        {
-            
-            return 0M;
+            switch (grade)
+            {
+                case ModGrade.Grey:
+                    ToGreen = 10;
+                    ToBlue = 20;
+                    ToPurple = 35;
+                    ToGold = 50;
+                    break;
+                case ModGrade.Green:
+                    ToGreen = 0;
+                    ToBlue = 20;
+                    ToPurple = 35;
+                    ToGold = 50;
+                    break;
+                case ModGrade.Blue:
+                    ToGreen = 0;
+                    ToBlue = 0;
+                    ToPurple = 35;
+                    ToGold = 50;
+                    break;
+                case ModGrade.Purple:
+                    ToGreen = 0;
+                    ToBlue = 0;
+                    ToPurple = 0;
+                    ToGold = 50;
+                    break;
+                case ModGrade.Gold:
+                    ToGreen = 0;
+                    ToBlue = 0;
+                    ToPurple = 0;
+                    ToGold = 0;
+                    break;
+            }
         }
     }
 }

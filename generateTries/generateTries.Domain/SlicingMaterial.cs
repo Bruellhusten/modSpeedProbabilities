@@ -13,11 +13,10 @@ namespace generateTries.Domain
 
         public SlicingMaterial()
         {
-            SlicingMaterialCosts = 14;
+            SlicingMaterialCosts = 12;
             CrystalPerMaterial = 8;
             MaterialDropRate = 1.3M;
             CrystalToEnergyEquivalent = SlicingMaterialCosts * MaterialDropRate / CrystalPerMaterial;
         }
-
     }
 }

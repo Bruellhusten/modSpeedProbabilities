@@ -46,12 +46,13 @@ namespace generateTries.WebApi.Controllers
                 "Purple: " + strategy.PurpleThreshold.ToString() + Environment.NewLine +
                 "> Daily Mod Energy: " + strategy.DailyModEnergy.ToString() + Environment.NewLine +
                 "> Daily Crystal for Slicing Mats: " + strategy.DailySlicingCrystal.ToString() + Environment.NewLine +
+                "> Daily Mod Energy Refreshes: " + strategy.ModEnergyRefreshes.ToString() + Environment.NewLine +
                 "=========================================" + Environment.NewLine +
                 "Will yield after " + evaluation.PassedDays.ToString() + " days these Speed Mods:" + Environment.NewLine +
                 "+10 Speed: " + Math.Round(evaluation.SumOfPlus10Mods, 4).ToString(CultureInfo.InvariantCulture) + Environment.NewLine +
-                "+15 Speed: " + Math.Round(evaluation.SumOfPlus15Mods, 4).ToString() + Environment.NewLine +
-                "+20 Speed: " + Math.Round(evaluation.SumOfPlus20Mods, 4).ToString() + Environment.NewLine +
-                "+25 Speed: " + Math.Round(evaluation.SumOfPlus25Mods, 4).ToString();
+                "+15 Speed: " + Math.Round(evaluation.SumOfPlus15Mods, 4).ToString(CultureInfo.InvariantCulture) + Environment.NewLine +
+                "+20 Speed: " + Math.Round(evaluation.SumOfPlus20Mods, 4).ToString(CultureInfo.InvariantCulture) + Environment.NewLine +
+                "+25 Speed: " + Math.Round(evaluation.SumOfPlus25Mods, 4).ToString(CultureInfo.InvariantCulture);
         }
 
         private void CheckSpeedInput(int speed)

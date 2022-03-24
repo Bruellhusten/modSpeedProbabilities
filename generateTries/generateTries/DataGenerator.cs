@@ -25,6 +25,16 @@ namespace generateTries.Application
             }
             return results;
         }
+        public virtual void GenerateResultLines(List<SpeedResult> results, int speed)
+        {
+            var possibleCombinations = GeneratePossibleCombinations(speed);
+            results.Add(new SpeedResult
+            {
+                Speed = speed,
+                PossibleCombinations = possibleCombinations,
+                Probability = possibleCombinations.Sum(x => x.Probability()),
+            });
+        }
 
         public virtual List<Combination> GeneratePossibleCombinations(int targetSpeed)
         {
@@ -54,15 +64,6 @@ namespace generateTries.Application
             return combinations;
         }
 
-        public virtual void GenerateResultLines(List<SpeedResult> results, int speed)
-        {
-            var possibleCombinations = GeneratePossibleCombinations(speed);
-            results.Add(new SpeedResult
-            {
-                Speed = speed,
-                PossibleCombinations = possibleCombinations,
-                Probability = possibleCombinations.Sum(x => x.Probability()),
-            });
-        }
+
     }
 }
